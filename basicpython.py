@@ -359,10 +359,10 @@ for x in set(l):
            
 
 
-x=int(input("enter a no"))
+a=int(input("enter a no"))
 y=0
 z=0
-while y<=x:
+while y<=a:
     y=y+1
     z=2**y
     print(y,z)    
