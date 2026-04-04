@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Sep 27 20:11:10 2021
+
+@author: subham
+"""
+'''
+Problem Statement: -
+Kitabi Duniya, a famous book store in India, 
+which was established before Independence, the growth of 
+the company was incremental year by year, but due to online 
+selling of books and wide spread Internet access its annual 
+growth started to collapse, seeing sharp downfalls, you as a 
+Data Scientist help this heritage book store gain its popularity
+ back and increase footfall of customers and provide ways the 
+ business can improve exponentially, apply Association 
+ RuleAlgorithm, explain the rules, and visualize the graphs for
+ clear understanding of solution.
+'''
+
+#business constarain decrement in the book sell due to online platform
+#business objective is to increase its sell to improve 
+import pandas as pd
+
+from mlxtend.frequent_patterns import apriori,association_rules
+
+data=pd.read_csv("/Users/subham/Desktop/data/360 assignment /association rule/Datasets_Association Rules/book.csv")
+data
+data.shape
+data.columns
+#so here we see our data is ready to use
+#Association rules with 10% Support and 90% confidence
+
+from mlxtend.frequent_patterns import  apriori,association_rules
+from collections import Counter
+freqbook=Counter(data)
+
+
+frqitem=apriori(data,min_support=0.1,use_colnames=(True))
+frqitem
+# here i want maximum no of books to be selectet that is why
+# i keptmin_suport=0.01,max_length=10 i.e less than or equal to item set of 10
+
+#now #Association rules with 10% Support and 70% confidence
+rules=association_rules(frqitem,metric='lift',min_threshold=0.7)
+
+#top 10 rules or combination
+t10=rules.sort_values('lift',axis=0,ascending=False).head(11)
+
+# leverage value of 0 indicates independence. Range will be [-1 1]
+## A high conviction value means that the consequent is highly depending on the antecedent and range [0 inf]
+
+
+#so as we see most of the rules are repeated so we need to remove those rules 
+
+def to_list(i):
+    return(sorted(list(i)))
+
+
+
+ma_x=rules.antecedents.apply(to_list)+rules.consequents.apply(to_list)
+
+ma_x=ma_x.apply(sorted)
+ma_x
+
+rules_set=list(ma_x)
+
+
+unique_rules_set=[list(m)for m in set(tuple(i)for i in rules_set)]
+
+
+index_rule=[]
+
+
+for i in unique_rules_set:
+    index_rule.append(rules_set.index(i))
+
+#getting rules without any redudancy
+rules_red=rules.iloc[index_rule,:]
+#now sorting it with respect to lift
+rules_red=rules_red.sort_values('lift',axis=0,ascending=False)
+
+top10=rules_red.head(11)
+
+top10.duplicated().sum()
+top10=top10.drop_duplicates()
+
+#se here im here i am 70 % confident that if antecedent is bought 
+#then there is chances to buy consequent
+
+
+
+
+
+
+
+
+
+
+

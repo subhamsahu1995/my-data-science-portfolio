@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Oct 18 22:25:39 2021
+
+@author: subham
+"""
+
+import numpy as np
+import pandas as pd
+import networkx as nx
+
+data=pd.read_csv("/Users/subham/Desktop/data/360 assignment /network analytics/Datasets_Network Analytics/linkedin.csv")
+data.shape
+
+data.columns=["a","b","c","d","e","f","g","h","i","j","k","l","m"]
+data.index=["a","b","c","d","e","f","g","h","i","j","k","l","m"]
+
+g=nx.Graph()
+
+G= nx.from_pandas_adjacency(data,create_using=g)
+nx.info(G)
+
+gg=nx.to_numpy_matrix(G)
+gg
+
+GG=nx.from_numpy_matrix(gg)
+nx.draw(GG,with_labels=1)
+
+
+'''extended part'''
+#q1 like how many connection g has in linkedin
+
+frg=nx.degree(G,"g")
+frg
+nx.draw(G,with_labels=1)
+
+#to see who is having large no of connection
+
+impper=nx.eigenvector_centrality(G)
+impper
+
+for i in sorted(impper,key=impper.get,reverse=True):
+    print(i,impper[i])
+    
+    
+#so here we can saythat person m is having maximum no of connection
+nx.draw(G,with_labels=1)   
+
+
+
+#to see the shortest connection b/n the nodes 
+#what is the shortes connection b/w person g and person a
+nx.shortest_path(G,"g","a")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
