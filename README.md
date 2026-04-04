@@ -1,4 +1,4 @@
-#Data Science Learning and Project Portfolio.
+# Data Science Learning and Project Portfolio.
 📌 Overview
 
 This repository is my continuous process in the sphere of Data Science. It is a systematic set of my learning content, practical experience, schoolwork and real-life projects that I have created during my studies and self-education.
